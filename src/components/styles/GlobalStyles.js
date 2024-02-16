@@ -12,7 +12,7 @@ html,body,div,span,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,addr
   font-family: "Noto Sans TC", sans-serif;
 }
 html,body {
-  background: ${({ theme }) => theme.color.body};
+  background: ${({ theme }) => theme.color.bg};
   width: 100%;
   height: 100%;
 }
