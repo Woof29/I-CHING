@@ -5,7 +5,8 @@ export const theme = {
     primaryHover: "#A30000",
     secondary: "#152618",
     text: "#000",
-    bg: "#fff",
+    gray: "#4d4d4f",
+    default: "#fff",
   },
   font: {
     mainTitle: {

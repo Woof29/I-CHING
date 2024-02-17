@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { theme } from "../Global";
+import { theme } from "../../Global";
 import { Link } from "react-router-dom";
 
-const StartButton = styled(Link)`
-  width: 260px;
+const PrimaryButton = styled(Link)`
+  width: ${(props) => props.width || "auto"};
   padding: 8px;
-  background: ${theme.color.primary};
+  background: ${(props) => props.bg || theme.color.default};
   border: none;
   border-radius: 8px;
   text-align: center;
@@ -15,9 +15,9 @@ const StartButton = styled(Link)`
   color: #fff;
   cursor: pointer;
   &:hover {
-    background: ${theme.color.primaryHover};
+    background: ${(props) => props.hover || theme.color.default};
     color: #fff;
   }
 `;
 
-export default StartButton;
+export default PrimaryButton;

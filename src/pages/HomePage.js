@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { theme } from "../Global";
 import OpenFadeIn from "../components/styles/FadeIn";
 import Container from "../components/styles/Container.styled";
-import StartButton from "../components/PrimaryButton.styled";
+import PrimaryButton from "../components/styles/PrimaryButton.styled";
 
 const Title = styled.h1`
   font-size: ${theme.font.mainTitle.size};
@@ -19,7 +19,18 @@ const HomePage = () => {
           <br />
           Web of Changes
         </Title>
-        <StartButton to="/notice">START</StartButton>
+        <div
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <PrimaryButton
+            to="/notice"
+            width="260px"
+            bg={theme.color.primary}
+            hover={theme.color.primaryHover}
+          >
+            START
+          </PrimaryButton>
+        </div>
       </Container>
     </OpenFadeIn>
   );

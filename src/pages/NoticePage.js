@@ -3,8 +3,10 @@ import Container from "../components/styles/Container.styled";
 import OpenFadeIn from "../components/styles/FadeIn";
 import { theme } from "../Global";
 import styled from "styled-components";
+import PrimaryButton from "../components/styles/PrimaryButton.styled";
+import BackButton from "../components/styles/BackButton.styled";
 
-const NoticeWrap = styled.div`
+const NoticeWrap = styled.div.attrs("")`
   padding: 12px;
   border-radius: 8px;
   border: 1px solid ${theme.color.secondary};
@@ -20,35 +22,31 @@ const Title = styled.span`
   line-height: ${theme.font.subTitle.lineHeight};
 `;
 
+// notice list comp
 const NoticeList = ({ className }) => {
   return (
-    <div className={className}>
-      <ul className="nl">
-        <li className="item">
-          Seek divination with a sincere heart and genuine doubts.
-        </li>
-        <li className="item">
-          Ensure the question is morally just for meaningful divination results.
-        </li>
-        <li className="item">
-          Avoiding ask unnecessary question that easily determined through
-          common sense.
-        </li>
-      </ul>
-    </div>
+    <ul className={className}>
+      <li>Seek divination with a sincere heart and genuine doubts.</li>
+      <li>
+        Ensure the question is morally just for meaningful divination results.
+      </li>
+      <li>
+        Avoiding ask unnecessary question that easily determined through common
+        sense.
+      </li>
+    </ul>
   );
 };
-
+// notice list style
 const NLStyled = styled(NoticeList)`
-  .nl {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 8px;
-    list-style: decimal;
-  }
-  .item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  list-style: decimal;
+
+  li {
     margin-left: 20px;
     font-size: ${theme.font.content.size};
     font-weight: ${theme.font.content.weight};
@@ -56,8 +54,8 @@ const NLStyled = styled(NoticeList)`
   }
 `;
 
-const AG = ({ className }) => {
-  const [isChecked, setIsChecked] = useState(false);
+// agree comp
+const AG = ({ className, isChecked, setIsChecked }) => {
   return (
     <div className={className}>
       <input
@@ -66,10 +64,11 @@ const AG = ({ className }) => {
         type="checkbox"
         id="agree"
       ></input>
-      <label for="agree">Got it!</label>
+      <label htmlFor="agree">Got it!</label>
     </div>
   );
 };
+// agree style
 const AGStyled = styled(AG)`
   display: flex;
   align-items: center;
@@ -109,18 +108,62 @@ const AGStyled = styled(AG)`
     }
   }
   label {
+    font-size: ${theme.font.content.size};
+    font-weight: ${theme.font.content.weight};
+    line-height: ${theme.font.content.lineHeight};
+    cursor: pointer;
   }
 `;
 
+// next button comp
+const NextButton = ({ isChecked }) => {
+  return isChecked ? (
+    <PrimaryButton
+      width="260px"
+      to="/userInfo"
+      bg={theme.color.primary}
+      hover={theme.color.primaryHover}
+    >
+      NEXT
+    </PrimaryButton>
+  ) : (
+    <BackButton
+      width="260px"
+      color={theme.color.secondary}
+      style={{ cursor: "unset" }}
+    >
+      NEXT
+    </BackButton>
+  );
+};
+
 const NoticePage = () => {
+  const [isChecked, setIsChecked] = useState(false);
   return (
     <OpenFadeIn>
       <Container height="100dvh">
         <NoticeWrap>
           <Title>Notice</Title>
           <NLStyled></NLStyled>
-          <AGStyled></AGStyled>
+          <AGStyled
+            isChecked={isChecked}
+            setIsChecked={setIsChecked}
+          ></AGStyled>
         </NoticeWrap>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "8px",
+          }}
+        >
+          <BackButton to="/" width="260px" color={theme.color.secondary}>
+            BACK
+          </BackButton>
+          <NextButton isChecked={isChecked} />
+        </div>
       </Container>
     </OpenFadeIn>
   );

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: ${({ width }) => width};
-  max-width: 100%;
-  height: ${({ height }) => height};
+  width: ${(props) => props.width};
+  max-width: 600px;
+  height: ${(props) => props.height};
   padding: 20px;
   margin: auto;
   display: flex;
