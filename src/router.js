@@ -17,7 +17,7 @@ const router = createBrowserRouter([
 		element: <UserInfoPage />,
 	},
 	{
-		path: '/',
+		path: '/divination',
 		element: <h1>This is Divination</h1>,
 	},
 ]);
