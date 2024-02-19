@@ -1,3 +1,4 @@
+// gitHub部屬不支援createBrowserRouter，所以改用createHashRouter
 import { createHashRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import NoticePage from "./pages/NoticePage";

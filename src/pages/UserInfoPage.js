@@ -38,7 +38,7 @@ const FormStyled = styled.div`
       textarea {
         flex: 1;
         padding: 8px;
-        border: 0.5px solid ${theme.color.gray};
+        border: 1px solid ${theme.color.gray};
         border-radius: 4px;
         outline: none;
         resize: none;
