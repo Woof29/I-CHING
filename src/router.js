@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import NoticePage from './pages/NoticePage';
 import UserInfoPage from './pages/UserInfoPage';
 import DivinationPage from './pages/DivinationPage';
+import ResultPage from './pages/ResultPage';
 
 const router = createHashRouter([
 	{
@@ -21,6 +22,10 @@ const router = createHashRouter([
 	{
 		path: '/divination',
 		element: <DivinationPage />,
+	},
+	{
+		path: '/result',
+		element: <ResultPage />,
 	},
 ]);
 
