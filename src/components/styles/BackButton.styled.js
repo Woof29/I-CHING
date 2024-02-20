@@ -18,7 +18,7 @@ const BackButton = styled(Link)`
   font-size: ${theme.font.content.size};
   font-weight: ${theme.font.content.weight};
   line-height: ${theme.font.content.lineHeight};
-  color: ${(props) => props.color || "#fff"};
+  color: ${theme.color.secondary};
   cursor: pointer;
 `;
 
