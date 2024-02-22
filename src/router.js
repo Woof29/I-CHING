@@ -24,7 +24,7 @@ const router = createHashRouter([
 		element: <DivinationPage />,
 	},
 	{
-		path: '/result',
+		path: '/result/:hexagramID',
 		element: <ResultPage />,
 	},
 ]);

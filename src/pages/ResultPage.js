@@ -1,38 +1,85 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import Container from "../components/styles/Container.styled";
-import OpenFadeIn from "../components/styles/FadeIn";
-import { db } from "../utils/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState, useRef } from 'react';
+import Container from '../components/styles/Container.styled';
+import OpenFadeIn from '../components/styles/FadeIn';
+import { db } from '../utils/firebase';
+import { collection, query, getDocs, where } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { useUser } from '../UserContext';
+
+const Yin = styled.span`
+	width: 100%;
+	height: 20px;
+	background: ${(props) => (props.isChanged ? '#ff0000' : '#000')};
+	position: relative;
+	&::before {
+		content: '';
+		width: 15%;
+		height: 20px;
+		background: #fff;
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+`;
+const Young = styled.span`
+	width: 100%;
+	height: 20px;
+	background: ${(props) => (props.isChanged ? '#ff0000' : '#000')};
+	position: relative;
+`;
+const HexagramImg = ({ arr, changes }) => {
+	return (
+		<>
+			{[...arr]
+				.reverse()
+				.map((item, index) =>
+					item === 0 ? (
+						<Yin key={index} isChanged={index === arr.length - changes} />
+					) : (
+						<Young key={index} isChanged={index === arr.length - changes} />
+					)
+				)}
+		</>
+	);
+};
 
 const ResultPage = () => {
-  const [hexagram, setHexagram] = useState();
-
-  const getHexagram = async () => {
-    const querySnapshot = await getDocs(collection(db, "hexagram"));
-    const hexagramData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
-    setHexagram(hexagramData);
-    // console.log(hexagramData);
-  };
-
-  useEffect(() => {
-    getHexagram();
-  }, []);
-
-  return (
-    <OpenFadeIn>
-      <Container height="100dvh">
-        <h1>This is result</h1>
-        {/* {hexagram &&
-          hexagram.map((item, i) => (
-            <div key={i}>
-              <h1>{item.name}</h1>
-              <p>{item.judgment}</p>
-            </div>
-          ))} */}
-      </Container>
-    </OpenFadeIn>
-  );
+	// const isEffectCalledRef = useRef(false);
+	const { hexagramID } = useParams();
+	const [hexagram, setHexagram] = useState();
+	const getHexagram = async () => {
+		const queryVar = query(
+			collection(db, 'hexagram'),
+			where('id', '==', parseInt(hexagramID))
+		);
+		const querySnapshot = await getDocs(queryVar);
+		if (querySnapshot.size > 0) {
+			querySnapshot.forEach((doc) => {
+				setHexagram(doc.data());
+				console.log(hexagram);
+			});
+		}
+	};
+	const { userData } = useUser();
+	useEffect(() => {
+		// if (!isEffectCalledRef.current) {
+		// 	isEffectCalledRef.current = true;
+		// }
+		getHexagram();
+	}, []);
+	return (
+		<OpenFadeIn>
+			<Container height="100dvh">
+				<h1>This is result</h1>
+				{hexagram && <p>{hexagram.name}</p>}
+				{hexagram && (
+					<HexagramImg arr={hexagram.lines} changes={userData.changes} />
+				)}
+			</Container>
+		</OpenFadeIn>
+	);
 };
 
 export default ResultPage;

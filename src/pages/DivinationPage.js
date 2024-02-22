@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import BackButton from '../components/styles/BackButton.styled';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../UserContext';
 
 const Title = styled.span`
 	font-size: ${theme.font.subTitle.size};
@@ -106,6 +107,8 @@ const NoticeStyled = styled.ul`
 `;
 
 const DivinationPage = () => {
+	const navigate = useNavigate();
+	const { setFormUserData } = useUser();
 	const {
 		register,
 		handleSubmit,
@@ -126,12 +129,15 @@ const DivinationPage = () => {
 		}));
 	};
 
-	const navigate = useNavigate();
-
 	const onSubmit = (data) => {
-		// 在這裡處理提交邏輯
-		console.log(data);
-		navigate('/result');
+		const firstNumber = parseInt(data.first, 10);
+		const secondNumber = parseInt(data.second, 10);
+		const thirdNumber = parseInt(data.third, 10);
+		const above = firstNumber % 8 === 0 ? 8 : firstNumber % 8;
+		const below = secondNumber % 8 === 0 ? 8 : secondNumber % 8;
+		const changes = thirdNumber % 6 === 0 ? 6 : thirdNumber % 6;
+		setFormUserData((prevUserData) => ({ ...prevUserData, changes }));
+		navigate(`/result/${above}${below}`);
 	};
 
 	return (
