@@ -6,11 +6,12 @@ import { collection, query, getDocs, where } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUser } from '../UserContext';
+import { theme } from '../Global';
 
 const Yin = styled.span`
 	width: 100%;
 	height: 20px;
-	background: ${(props) => (props.isChanged ? '#ff0000' : '#000')};
+	background: ${(props) => (props.$isChanged ? '#ff0000' : '#000')};
 	position: relative;
 	&::before {
 		content: '';
@@ -26,7 +27,7 @@ const Yin = styled.span`
 const Young = styled.span`
 	width: 100%;
 	height: 20px;
-	background: ${(props) => (props.isChanged ? '#ff0000' : '#000')};
+	background: ${(props) => (props.$isChanged ? '#ff0000' : '#000')};
 	position: relative;
 `;
 const HexagramImg = ({ arr, changes }) => {
@@ -36,9 +37,9 @@ const HexagramImg = ({ arr, changes }) => {
 				.reverse()
 				.map((item, index) =>
 					item === 0 ? (
-						<Yin key={index} isChanged={index === arr.length - changes} />
+						<Yin key={index} $isChanged={index === arr.length - changes} />
 					) : (
-						<Young key={index} isChanged={index === arr.length - changes} />
+						<Young key={index} $isChanged={index === arr.length - changes} />
 					)
 				)}
 		</>
@@ -46,7 +47,8 @@ const HexagramImg = ({ arr, changes }) => {
 };
 
 const ResultPage = () => {
-	// const isEffectCalledRef = useRef(false);
+	const isEffectCalledRef = useRef(false);
+	const { userData } = useUser();
 	const { hexagramID } = useParams();
 	const [hexagram, setHexagram] = useState();
 	const getHexagram = async () => {
@@ -58,16 +60,16 @@ const ResultPage = () => {
 		if (querySnapshot.size > 0) {
 			querySnapshot.forEach((doc) => {
 				setHexagram(doc.data());
-				console.log(hexagram);
+				console.log(doc.data());
 			});
 		}
 	};
-	const { userData } = useUser();
+
 	useEffect(() => {
-		// if (!isEffectCalledRef.current) {
-		// 	isEffectCalledRef.current = true;
-		// }
-		getHexagram();
+		if (!isEffectCalledRef.current) {
+			isEffectCalledRef.current = true;
+			getHexagram();
+		}
 	}, []);
 	return (
 		<OpenFadeIn>
