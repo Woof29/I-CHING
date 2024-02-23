@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Container from "../components/styles/Container.styled";
-import OpenFadeIn from "../components/styles/FadeIn";
 import { theme } from "../Global";
 import { useForm } from "react-hook-form";
 import BackButton from "../components/styles/BackButton.styled";
@@ -32,7 +31,7 @@ const FormStyled = styled.div`
         color: ${theme.color.primary};
       }
       span {
-        flex: 20% 0 0;
+        flex: 25% 0 0;
       }
       input,
       select,
@@ -103,82 +102,79 @@ const UserInfoPage = () => {
   };
 
   return (
-    <OpenFadeIn>
-      <Container height="100dvh">
-        <FormStyled>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="name">
-              <span>NAME</span>
-              <input
-                {...register("name", { required: "Plz input your name" })}
-                id="name"
-              ></input>
-              {!!errors.name && (
-                <p className="notice">{errors.name?.message}</p>
-              )}
-            </label>
+    <Container>
+      <FormStyled>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <label htmlFor="name">
+            <span>NAME</span>
+            <input
+              {...register("name", { required: "Plz input your name" })}
+              id="name"
+            ></input>
+            {!!errors.name && <p className="notice">{errors.name?.message}</p>}
+          </label>
 
-            <label htmlFor="gender">
-              <span>Gender</span>
-              <select
-                {...register("gender", { required: "Plz input your gender" })}
-                id="gender"
-              >
-                <option value="male">MALE</option>
-                <option value="female">FEMALE</option>
-                <option value="other">OTHER</option>
-              </select>
-              {!!errors.gender && (
-                <p className="notice">{errors.gender?.message}</p>
-              )}
-            </label>
+          <label htmlFor="gender">
+            <span>Gender</span>
+            <select
+              {...register("gender", { required: "Plz input your gender" })}
+              id="gender"
+            >
+              <option value="male">MALE</option>
+              <option value="female">FEMALE</option>
+              <option value="other">OTHER</option>
+            </select>
+            {!!errors.gender && (
+              <p className="notice">{errors.gender?.message}</p>
+            )}
+          </label>
 
-            <label htmlFor="bd">
-              <span>Birthday</span>
-              <input
-                type="date"
-                {...register("birthday", {
-                  required: "Plz input your birthday",
-                })}
-                id="bd"
-              ></input>
-              {!!errors.birthday && (
-                <p className="notice">{errors.birthday?.message}</p>
-              )}
-            </label>
+          <label htmlFor="bd">
+            <span>Birthday</span>
+            <input
+              type="date"
+              {...register("birthday", {
+                required: "Plz input your birthday",
+              })}
+              id="bd"
+            ></input>
+            {!!errors.birthday && (
+              <p className="notice">{errors.birthday?.message}</p>
+            )}
+          </label>
 
-            <label htmlFor="question">
-              <textarea
-                {...register("question", {
-                  required: "Plz input your question",
-                  minLength: {
-                    value: 10,
-                    message: "The more detailed answer requires more input",
-                  },
-                })}
-                id="question"
-                rows="5"
-                placeholder="Input at least ten characters for a more detailed response"
-              ></textarea>
-              {!!errors.question && (
-                <p className="notice">{errors.question?.message}</p>
-              )}
-            </label>
+          <label htmlFor="question">
+            <textarea
+              {...register("question", {
+                required: "Plz input your question",
+                minLength: {
+                  value: 10,
+                  message: "The more detailed answer requires more input",
+                },
+              })}
+              id="question"
+              rows="5"
+              placeholder="Input at least ten characters for a more detailed response"
+              maxLength={200}
+            ></textarea>
+            {!!errors.question && (
+              <p className="notice">{errors.question?.message}</p>
+            )}
+          </label>
 
-            <div className="toolbar">
-              <BackButton
-                to="/notice"
-                width="260px"
-                color={theme.color.secondary}
-              >
-                BACK
-              </BackButton>
-              <button type="submit">SUBMIT</button>
-            </div>
-          </form>
-        </FormStyled>
-      </Container>
-    </OpenFadeIn>
+          <div className="toolbar">
+            <BackButton
+              to="/notice"
+              width="260px"
+              color={theme.color.secondary}
+            >
+              BACK
+            </BackButton>
+            <button type="submit">SUBMIT</button>
+          </div>
+        </form>
+      </FormStyled>
+    </Container>
   );
 };
 

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Container from "../components/styles/Container.styled";
-import OpenFadeIn from "../components/styles/FadeIn";
 import { theme } from "../Global";
 import styled from "styled-components";
 import PrimaryButton from "../components/styles/PrimaryButton.styled";
@@ -135,30 +134,25 @@ const NextButton = ({ isChecked }) => {
 const NoticePage = () => {
   const [isChecked, setIsChecked] = useState(false);
   return (
-    <OpenFadeIn>
-      <Container height="100dvh">
-        <NoticeWrap>
-          <Title>Notice</Title>
-          <NLStyled></NLStyled>
-          <AGStyled
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}
-          ></AGStyled>
-        </NoticeWrap>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "8px",
-          }}
-        >
-          <BackButton to="/">BACK</BackButton>
-          <NextButton isChecked={isChecked} />
-        </div>
-      </Container>
-    </OpenFadeIn>
+    <Container height="100dvh">
+      <NoticeWrap>
+        <Title>Notice</Title>
+        <NLStyled></NLStyled>
+        <AGStyled isChecked={isChecked} setIsChecked={setIsChecked}></AGStyled>
+      </NoticeWrap>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "8px",
+        }}
+      >
+        <BackButton to="/">BACK</BackButton>
+        <NextButton isChecked={isChecked} />
+      </div>
+    </Container>
   );
 };
 
