@@ -185,7 +185,6 @@ const ResultPage = () => {
     if (querySnapshot.size > 0) {
       querySnapshot.forEach((doc) => {
         setHexagram(doc.data());
-        console.log(doc.data());
       });
     }
   };
@@ -200,10 +199,10 @@ const ResultPage = () => {
   const handleCapture = async () => {
     try {
       const canvas = await html2canvas(captureRef.current);
-      const imageURL = canvas.toDataURL("image/jpg");
+      const imageURL = canvas.toDataURL("image/jpeg");
       const a = document.createElement("a");
       a.href = imageURL;
-      a.download = "result.png";
+      a.download = "result.jpg";
       a.click();
     } catch (error) {
       console.error("截圖失敗", error);
@@ -254,7 +253,7 @@ const ResultPage = () => {
       </Answer>
       <Toolbar>
         <BackButton className="back" to="/">
-          BACK
+          PLAY AGAIN
         </BackButton>
         <button onClick={handleCapture}>CAPTURE</button>
       </Toolbar>
