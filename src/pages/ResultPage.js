@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useUser } from "../UserContext";
 import { theme } from "../Global";
 import BackButton from "../components/styles/BackButton.styled";
+import { t } from "i18next";
 
 const Yin = styled.span`
   width: 100%;
@@ -172,19 +173,33 @@ const Toolbar = styled.div`
 const ResultPage = () => {
   const captureRef = useRef(null);
   const isEffectCalledRef = useRef(false);
-  const { userData } = useUser();
+  const { userData, langData } = useUser();
   const { hexagramID } = useParams();
   const [hexagram, setHexagram] = useState();
   const getHexagram = async () => {
-    const queryVar = query(
-      collection(db, "hexagram"),
-      where("id", "==", parseInt(hexagramID))
-    );
-    const querySnapshot = await getDocs(queryVar);
-    if (querySnapshot.size > 0) {
-      querySnapshot.forEach((doc) => {
-        setHexagram(doc.data());
-      });
+    if (langData === "en") {
+      const queryVar = query(
+        collection(db, "hexagram"),
+        where("id", "==", parseInt(hexagramID))
+      );
+      const querySnapshot = await getDocs(queryVar);
+      if (querySnapshot.size > 0) {
+        querySnapshot.forEach((doc) => {
+          setHexagram(doc.data());
+        });
+      }
+    } else if (langData === "zh") {
+      // const queryVar = query(
+      //   collection(db, "hexagram"),
+      //   where("id", "==", parseInt(hexagramID))
+      // );
+      // const querySnapshot = await getDocs(queryVar);
+      // if (querySnapshot.size > 0) {
+      //   querySnapshot.forEach((doc) => {
+      //     setHexagram(doc.data());
+      //   });
+      // }
+      console.log(123);
     }
   };
 
@@ -230,24 +245,24 @@ const ResultPage = () => {
       {hexagram && (
         <Answer>
           <div className="item">
-            <span className="title">JUDGMENT</span>
+            <span className="title">{t("result.judgment")}</span>
             <p>{hexagram.judgment}</p>
           </div>
           <div className="item">
-            <span className="title">DESCRIPTION</span>
+            <span className="title">{t("result.paraphrase")}</span>
             <p>{hexagram.description}</p>
           </div>
           <div className="item">
-            <span className="title">CHANGES</span>
+            <span className="title">{t("result.lines")}</span>
             <p>{hexagram.linesMeaning[userData.changes - 1]}</p>
           </div>
         </Answer>
       )}
       <Toolbar>
         <BackButton className="back" to="/">
-          PLAY AGAIN
+          {t("button.home")}
         </BackButton>
-        <button onClick={handleCapture}>CAPTURE</button>
+        <button onClick={handleCapture}>{t("button.capture")}</button>
       </Toolbar>
     </Container>
   );

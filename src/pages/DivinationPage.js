@@ -6,6 +6,8 @@ import { useState } from "react";
 import BackButton from "../components/styles/BackButton.styled";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../UserContext";
+import { t } from "i18next";
+import PrimaryButton from "../components/styles/PrimaryButton.styled";
 
 const Title = styled.span`
   font-size: ${theme.font.subTitle.size};
@@ -61,16 +63,10 @@ const FormStyled = styled.div`
       justify-content: space-between;
       gap: 8px;
       button {
-        flex: 1;
-        padding: 8px;
         background: #fff;
         border: 1px solid ${theme.color.secondary};
-        border-radius: 8px;
-        text-align: center;
-        font-size: ${theme.font.content.size};
-        font-weight: ${theme.font.content.weight};
-        line-height: ${theme.font.content.lineHeight};
         color: ${theme.color.secondary};
+        cursor: initial;
         &.isActive {
           background: ${theme.color.primary};
           border: none;
@@ -142,33 +138,26 @@ const DivinationPage = () => {
   return (
     <Container>
       <NoticeStyled>
-        <Title style={{ alignSelf: "center" }}>Notice</Title>
-        <li className="item">
-          Associate three sets of three-digit numbers with non-zero first
-          digits.
-        </li>
-        <li className="item">Avoid using intentionally meaningful numbers.</li>
-        <li className="item">
-          Input the numbers sequentially, starting from the first set.
-        </li>
-        <li className="item">
-          The submit button activates after entering each set.
-        </li>
+        <Title style={{ alignSelf: "center" }}>{t("divination.title")}</Title>
+        <li className="item">{t("divination.list.item1")}</li>
+        <li className="item">{t("divination.list.item2")}</li>
+        <li className="item">{t("divination.list.item3")}</li>
+        <li className="item">{t("divination.list.item4")}</li>
       </NoticeStyled>
       <FormStyled>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="first">
             <input
               {...register("first", {
-                required: "Plz input first set",
+                required: t("divination.required.item1"),
                 pattern: {
                   value: /^[1-9]\d{2}$/,
-                  message: "Plz input a valid format",
+                  message: t("divination.error"),
                 },
-                minLength: { value: 3, message: "Plz input a valid format" },
+                minLength: { value: 3, message: t("divination.error") },
               })}
               id="first"
-              placeholder="First set"
+              placeholder={t("divination.PH.item1")}
               disabled={inputStatus.first}
               onChange={() => handleInputChange("second")}
               maxLength={3}
@@ -181,15 +170,15 @@ const DivinationPage = () => {
           <label htmlFor="second">
             <input
               {...register("second", {
-                required: "Plz input second set",
+                required: t("divination.required.item2"),
                 pattern: {
                   value: /^[1-9]\d{2}$/,
-                  message: "Plz input a valid format",
+                  message: t("divination.error"),
                 },
-                minLength: { value: 3, message: "Plz input a valid format" },
+                minLength: { value: 3, message: t("divination.error") },
               })}
               id="second"
-              placeholder="Second set"
+              placeholder={t("divination.PH.item2")}
               disabled={inputStatus.second}
               onChange={() => handleInputChange("third")}
               maxLength={3}
@@ -201,15 +190,15 @@ const DivinationPage = () => {
           <label htmlFor="third">
             <input
               {...register("third", {
-                required: "Plz input third set",
+                required: t("divination.required.item3"),
                 pattern: {
                   value: /^[1-9]\d{2}$/,
-                  message: "Plz input a valid format",
+                  message: t("divination.error"),
                 },
-                minLength: { value: 3, message: "Plz input a valid format" },
+                minLength: { value: 3, message: t("divination.error") },
               })}
               id="third"
-              placeholder="Third set"
+              placeholder={t("divination.PH.item3")}
               disabled={inputStatus.third}
               onChange={() => handleInputChange("button")}
               maxLength={3}
@@ -221,16 +210,16 @@ const DivinationPage = () => {
 
           <div className="toolbar">
             <BackButton to="/userInfo" width="260px">
-              BACK
+              {t("button.back")}
             </BackButton>
 
-            <button
+            <PrimaryButton
               className={inputStatus.button ? "" : "isActive"}
               type="submit"
               disabled={inputStatus.button}
             >
-              SUBMIT
-            </button>
+              {t("button.submit")}
+            </PrimaryButton>
           </div>
         </form>
       </FormStyled>
