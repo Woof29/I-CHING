@@ -5,7 +5,7 @@ import PrimaryButton from "../components/styles/PrimaryButton.styled";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../UserContext";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 // import generateTextFromAI from "../utils/openAI_API";
 
 const Title = styled.h1`
@@ -41,13 +41,8 @@ const HomePage = () => {
   const { t, i18n } = useTranslation();
   const changeLng = (lng) => {
     i18n.changeLanguage(lng);
+    setFormLangData(lng);
   };
-
-  useEffect(() => {
-    if (langData != i18n.language) {
-      setFormLangData(i18n.language);
-    }
-  }, [i18n.language]);
 
   const navigate = useNavigate();
   const handleRouterChange = () => {
