@@ -12,7 +12,11 @@ const resources = {
   },
 };
 
+const lang = sessionStorage.getItem("lang") || "zh";
+
 i18n.use(initReactI18next).init({
   resources,
-  lng: "zh",
+  lng: lang,
 });
+
+export default i18n;

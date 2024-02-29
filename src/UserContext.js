@@ -13,12 +13,12 @@ export const UserProvider = ({ children }) => {
   });
   const [langData, setLangData] = useState(() => {
     const storedLang = sessionStorage.getItem("lang");
-    return storedLang ? JSON.parse(storedLang) : "zh";
+    return storedLang ? storedLang : "zh";
   });
 
   useEffect(() => {
     sessionStorage.setItem("userData", JSON.stringify(userData));
-    sessionStorage.setItem("lang", JSON.stringify(langData));
+    sessionStorage.setItem("lang", langData);
   }, [userData, langData]);
 
   const setFormUserData = (data) => {

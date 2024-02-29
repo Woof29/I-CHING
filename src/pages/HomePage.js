@@ -4,8 +4,9 @@ import Container from "../components/styles/Container.styled";
 import PrimaryButton from "../components/styles/PrimaryButton.styled";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { useUser } from "../UserContext";
+import { useEffect } from "react";
+// import generateTextFromAI from "../utils/openAI_API";
 
 const Title = styled.h1`
   font-size: ${theme.font.mainTitle.size};
@@ -36,16 +37,23 @@ const STContainer = styled(Container)`
 `;
 
 const HomePage = () => {
-  const { setFormLangData } = useUser();
+  const { langData, setFormLangData } = useUser();
   const { t, i18n } = useTranslation();
   const changeLng = (lng) => {
     i18n.changeLanguage(lng);
-    setFormLangData(lng);
   };
+
+  useEffect(() => {
+    if (langData != i18n.language) {
+      setFormLangData(i18n.language);
+    }
+  }, [i18n.language]);
+
   const navigate = useNavigate();
   const handleRouterChange = () => {
     navigate("/notice");
   };
+
   return (
     <STContainer>
       <Title>
@@ -58,10 +66,16 @@ const HomePage = () => {
         {t("button.start")}
       </PrimaryButton>
 
-      <select defaultValue="zh" onChange={(e) => changeLng(e.target.value)}>
+      <select
+        defaultValue={langData}
+        onChange={(e) => changeLng(e.target.value)}
+      >
         <option value="zh">繁體中文</option>
         <option value="en">English</option>
       </select>
+      {/* <button onClick={() => generateTextFromAI(userQuestion, fortuneResult)}>
+        BUTTON
+      </button> */}
     </STContainer>
   );
 };
