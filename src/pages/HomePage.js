@@ -5,6 +5,7 @@ import PrimaryButton from "../components/styles/PrimaryButton.styled";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../UserContext";
+// import { getFunctions, httpsCallable } from "firebase/functions";
 // import { useEffect } from "react";
 // import generateTextFromAI from "../utils/openAI_API";
 
@@ -15,7 +16,7 @@ const Title = styled.h1`
 `;
 
 const STContainer = styled(Container)`
-  width: 300px;
+  max-width: 300px;
   h1 {
     width: 100%;
   }
@@ -37,6 +38,20 @@ const STContainer = styled(Container)`
 `;
 
 const HomePage = () => {
+  // const functions = getFunctions();
+  // const generatedText = httpsCallable(functions, "generateTextFromAI");
+  // const userQuestion = "今年工作如何?";
+  // const fortuneResult = "乾卦";
+  // const onSubmit = () => {
+  //   generatedText({ userQuestion, fortuneResult })
+  //     .then((result) => {
+  //       console.log("Generated Text:", result.data.result);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // };
+
   const { langData, setFormLangData } = useUser();
   const { t, i18n } = useTranslation();
   const changeLng = (lng) => {
@@ -68,9 +83,7 @@ const HomePage = () => {
         <option value="zh">繁體中文</option>
         <option value="en">English</option>
       </select>
-      {/* <button onClick={() => generateTextFromAI(userQuestion, fortuneResult)}>
-        BUTTON
-      </button> */}
+      {/* <button onClick={() => onSubmit()}>BUTTON</button> */}
     </STContainer>
   );
 };
