@@ -2,13 +2,22 @@ import { useEffect, useState, useRef } from "react";
 import html2canvas from "html2canvas";
 import Container from "../components/styles/Container.styled";
 import { db } from "../utils/firebase";
-import { collection, query, getDocs, where } from "firebase/firestore";
+import {
+  collection,
+  query,
+  getDocs,
+  where,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useUser } from "../UserContext";
 import { theme } from "../Global";
 import BackButton from "../components/styles/BackButton.styled";
 import { t } from "i18next";
+import axios from "axios";
+import LoadingIconSpinner from "../components/styles/LoadingIcon.styled";
 
 const Yin = styled.span`
   width: 100%;
@@ -109,7 +118,7 @@ const UpSection = styled.div`
   p {
     padding: 0 8px;
     margin-top: 8px;
-    text-align: left;
+    text-align: center;
     line-height: 20px;
   }
 `;
@@ -124,6 +133,8 @@ const Answer = styled.div`
   position: relative;
   gap: 8px;
   .item {
+    width: 100%;
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -171,11 +182,15 @@ const Toolbar = styled.div`
 `;
 
 const ResultPage = () => {
+  const cloudFunctionsURL =
+    "https://us-central1-i-ching-1223e.cloudfunctions.net/generateTextFromAI";
   const captureRef = useRef(null);
   const isEffectCalledRef = useRef(false);
+  const isLoading = useRef(true);
   const { userData, langData } = useUser();
   const { hexagramID } = useParams();
   const [hexagram, setHexagram] = useState();
+  const [AISuggestion, setAISuggestion] = useState();
   const getHexagram = async () => {
     if (langData === "en") {
       const queryVar = query(
@@ -189,17 +204,32 @@ const ResultPage = () => {
         });
       }
     } else if (langData === "zh") {
-      // const queryVar = query(
-      //   collection(db, "hexagram"),
-      //   where("id", "==", parseInt(hexagramID))
-      // );
-      // const querySnapshot = await getDocs(queryVar);
-      // if (querySnapshot.size > 0) {
-      //   querySnapshot.forEach((doc) => {
-      //     setHexagram(doc.data());
-      //   });
-      // }
-      console.log(123);
+      const docRef = doc(db, "六十四卦", hexagramID);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setHexagram(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
+    }
+  };
+
+  const data = {
+    userQuestion: userData.question,
+    fortuneResult: {
+      guaCi: hexagram?.description,
+      bianYao: hexagram?.linesMeaning[userData.changes - 1],
+    },
+  };
+
+  const handleAIResponse = async () => {
+    try {
+      const response = await axios.post(cloudFunctionsURL, data);
+      const AIResponse = response.data.response;
+      setAISuggestion(AIResponse);
+      isLoading.current = false;
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -207,6 +237,7 @@ const ResultPage = () => {
     if (!isEffectCalledRef.current) {
       isEffectCalledRef.current = true;
       getHexagram();
+      handleAIResponse();
     }
   }, []);
 
@@ -224,7 +255,8 @@ const ResultPage = () => {
   };
   return (
     <Container>
-      {hexagram && (
+      {isLoading.current === true && <LoadingIconSpinner />}
+      {hexagram && AISuggestion && (
         <UpSection ref={captureRef}>
           <p className="HGTitle">{hexagram.name}</p>
           <div className="body">
@@ -242,15 +274,19 @@ const ResultPage = () => {
           <p>{userData.question}</p>
         </UpSection>
       )}
-      {hexagram && (
+      {hexagram && AISuggestion && (
         <Answer>
+          <div className="item">
+            <span className="title">{t("result.paraphrase")}</span>
+            {langData === "en" ? (
+              <p>{AISuggestion}.</p>
+            ) : (
+              <p>{AISuggestion}。</p>
+            )}
+          </div>
           <div className="item">
             <span className="title">{t("result.judgment")}</span>
             <p>{hexagram.judgment}</p>
-          </div>
-          <div className="item">
-            <span className="title">{t("result.paraphrase")}</span>
-            <p>{hexagram.description}</p>
           </div>
           <div className="item">
             <span className="title">{t("result.lines")}</span>
