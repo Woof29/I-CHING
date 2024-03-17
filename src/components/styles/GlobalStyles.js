@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 html,body,div,span,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,caption {
@@ -14,7 +14,10 @@ html,body,div,span,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,addr
 html,body {
   background: ${({ theme }) => theme.color.default};
   width: 100%;
-  height: 100%;
+  height: 100dvh;
+  &:has(.AIModal){
+    overflow: hidden;
+  }
 }
 ol,ul {
   list-style: none;

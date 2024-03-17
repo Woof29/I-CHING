@@ -1,6 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
-import html2canvas from 'html2canvas';
 import Container from '../components/styles/Container.styled';
+import {
+	fadeIn,
+	scaleIn,
+	scaleOut,
+} from '../components/styles/Animation.styled';
 import { db } from '../utils/firebase';
 import {
 	collection,
@@ -21,7 +25,7 @@ import LoadingIconSpinner from '../components/styles/LoadingIcon.styled';
 
 const Yin = styled.span`
 	width: 100%;
-	height: 10px;
+	height: 16px;
 	background: ${(props) =>
 		props.$isChanged ? `${theme.color.primary}` : '#000'};
 	display: block;
@@ -29,7 +33,7 @@ const Yin = styled.span`
 	&::before {
 		content: '';
 		width: 15%;
-		height: 10px;
+		height: 16px;
 		background: #fff;
 		position: absolute;
 		top: 0;
@@ -39,7 +43,7 @@ const Yin = styled.span`
 `;
 const Young = styled.span`
 	width: 100%;
-	height: 10px;
+	height: 16px;
 	background: ${(props) =>
 		props.$isChanged ? `${theme.color.primary}` : '#000'};
 	display: block;
@@ -63,27 +67,7 @@ const HexagramImg = ({ arr, changes }) => {
 
 const UpSection = styled.div`
 	width: 100%;
-	padding: 8px 0;
-	border: 1px solid ${theme.color.secondary};
-	border-radius: 8px;
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-wrap: wrap;
-	position: relative;
-	gap: 8px;
-	.HGTitle {
-		margin-bottom: 8px;
-		text-align: center;
-		font-size: ${theme.font.content.size};
-		font-weight: ${theme.font.subTitle.weight};
-	}
-	.body {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
 	.HG,
 	.UD {
 		flex: 1;
@@ -93,13 +77,20 @@ const UpSection = styled.div`
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		gap: 8px;
+		.HGTitle {
+			margin-bottom: 8px;
+			text-align: center;
+			font-size: ${theme.font.subTitle.size};
+			font-weight: ${theme.font.subTitle.weight};
+		}
 		.imgBox {
-			width: 60%;
+			width: 80%;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: 4px;
+			gap: 16px;
 		}
 	}
 	.UD {
@@ -115,11 +106,24 @@ const UpSection = styled.div`
 			left: -2px;
 		}
 	}
-	p {
-		padding: 0 8px;
-		margin-top: 8px;
+	.item {
+		width: 100%;
 		text-align: center;
-		line-height: 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+		&.question {
+			padding: 4px;
+			background: #f9eff1;
+			border: 1px solid #000;
+			border-radius: 8px;
+		}
+		.title {
+			font-size: ${theme.font.content.size};
+			font-weight: ${theme.font.subTitle.weight};
+		}
 	}
 `;
 
@@ -144,6 +148,11 @@ const Answer = styled.div`
 	.title {
 		font-size: ${theme.font.content.size};
 		font-weight: ${theme.font.subTitle.weight};
+	}
+	p {
+		font-size: ${theme.font.content.size};
+		font-weight: ${theme.font.content.weight};
+		text-align: left;
 	}
 `;
 
@@ -181,16 +190,99 @@ const Toolbar = styled.div`
 	}
 `;
 
+const AIModal = styled.div.attrs({ className: 'AIModal' })`
+	width: 100%;
+	height: 100dvh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	&.closing {
+		display: none;
+	}
+	.overlay {
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.3);
+		position: absolute;
+		top: 0;
+		left: 0;
+		animation: ${fadeIn} 0.3s ease-in;
+	}
+	.modal {
+		width: 360px;
+		padding: 16px 24px;
+		margin: auto 20px auto;
+		background: #fff;
+		border-radius: 16px;
+		border: 1px solid #000;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		position: relative;
+		z-index: 1;
+		transform: scale(0);
+		animation: ${scaleIn} 0.2s ease-in 0.3s forwards;
+		&.closing {
+			animation: ${scaleOut} 0.2s ease-out forwards;
+		}
+		.top {
+			width: 100%;
+			.title {
+				width: 100%;
+				display: block;
+				text-align: center;
+				font-size: ${theme.font.content.size};
+				font-weight: ${theme.font.subTitle.weight};
+			}
+			.closeBtn {
+				width: 24px;
+				height: 24px;
+				display: flex;
+				position: absolute;
+				right: 8px;
+				top: 8px;
+				&::after,
+				&::before {
+					content: '';
+					width: 2px;
+					height: calc(100% - 8px);
+					background: #000;
+					position: absolute;
+					top: 20%;
+					left: 50%;
+					transform: rotate(45deg);
+				}
+				&::after {
+					transform: rotate(-45deg);
+				}
+			}
+		}
+		.content {
+			p {
+				font-size: ${theme.font.content.size};
+				font-weight: ${theme.font.content.weight};
+			}
+		}
+	}
+`;
+
 const ResultPage = () => {
 	const cloudFunctionsURL =
 		'https://us-central1-i-ching-1223e.cloudfunctions.net/generateTextFromAI';
-	const captureRef = useRef(null);
 	const isEffectCalledRef = useRef(false);
 	const isLoading = useRef(true);
+	const isAImodalCalled = useRef(false);
 	const { userData, langData } = useUser();
 	const { hexagramID } = useParams();
 	const [hexagram, setHexagram] = useState();
+	const [showAIModal, setShowAIModal] = useState(false);
 	const [AISuggestion, setAISuggestion] = useState();
+
 	const getHexagram = async () => {
 		if (langData === 'en') {
 			const queryVar = query(
@@ -214,89 +306,103 @@ const ResultPage = () => {
 		}
 	};
 
-	const data = {
-		userQuestion: userData.question,
-		fortuneResult: {
-			guaCi: hexagram?.description,
-			bianYao: hexagram?.linesMeaning[userData.changes - 1],
-		},
+	const handleAIResponse = async () => {
+		setShowAIModal(true);
+		const data = {
+			userQuestion: userData.question,
+			fortuneResult: {
+				guaCi: hexagram?.description,
+				bianYao: hexagram?.linesMeaning[userData.changes - 1],
+			},
+		};
+		if (!isAImodalCalled.current) {
+			try {
+				const response = await axios.post(cloudFunctionsURL, data);
+				const AIResponse = response.data.response;
+				setAISuggestion(AIResponse);
+				isLoading.current = false;
+				isAImodalCalled.current = true;
+			} catch (error) {
+				console.error('Error:', error);
+			}
+		}
 	};
 
-	const handleAIResponse = async () => {
-		try {
-			const response = await axios.post(cloudFunctionsURL, data);
-			const AIResponse = response.data.response;
-			setAISuggestion(AIResponse);
-			isLoading.current = false;
-		} catch (error) {
-			console.error('Error:', error);
-		}
+	const handleCloseModal = () => {
+		document.querySelector('.modal').classList.add('closing');
+		setTimeout(() => {
+			setShowAIModal(false);
+		}, 300);
 	};
 
 	useEffect(() => {
 		if (!isEffectCalledRef.current) {
 			isEffectCalledRef.current = true;
 			getHexagram();
-			handleAIResponse();
 		}
 	}, []);
 
-	const handleCapture = async () => {
-		try {
-			const canvas = await html2canvas(captureRef.current, { useCORS: true });
-			const imageURL = canvas.toDataURL('image/jpeg');
-			const a = document.createElement('a');
-			a.href = imageURL;
-			a.download = 'result.jpg';
-			a.click();
-		} catch (error) {
-			console.error('截圖失敗', error);
-		}
-	};
 	return (
-		<Container>
-			{isLoading.current === true && <LoadingIconSpinner />}
-			{hexagram && AISuggestion && (
-				<UpSection ref={captureRef}>
-					<p className="HGTitle">{hexagram.name}</p>
-					<div className="body">
-						<div className="HG">
-							<div className="imgBox">
-								<HexagramImg arr={hexagram.lines} changes={userData.changes} />
+		<>
+			<Container>
+				{hexagram && (
+					<>
+						<UpSection>
+							<div className="HG">
+								<span className="HGTitle">{hexagram.name}</span>
+								<div className="imgBox">
+									<HexagramImg
+										arr={hexagram.lines}
+										changes={userData.changes}
+									/>
+								</div>
 							</div>
+							<div className="UD">
+								<div className="item question">
+									<span className="title">{t('result.question')}</span>
+									<p>{userData.question}</p>
+								</div>
+								<div className="item">
+									<span className="title">{t('result.judgment')}</span>
+									<p>{hexagram.judgment}</p>
+								</div>
+								<div className="item">
+									<span className="title">{t('result.lines')}</span>
+									<p>{hexagram.linesMeaning[userData.changes - 1]}</p>
+								</div>
+							</div>
+						</UpSection>
+						<Answer>
+							<div className="item">
+								<span className="title">{t('result.paraphrase')}</span>
+								<p>{hexagram.description}</p>
+							</div>
+						</Answer>
+					</>
+				)}
+				<Toolbar>
+					<BackButton className="back" to="/">
+						{t('button.home')}
+					</BackButton>
+					<button onClick={handleAIResponse}>{t('button.aiHelper')}</button>
+				</Toolbar>
+			</Container>
+			{showAIModal && (
+				<AIModal>
+					<div className="overlay" onClick={handleCloseModal}></div>
+					<div className="modal">
+						<div className="top">
+							<span className="title">{t('button.aiHelper')}</span>
+							<span className="closeBtn" onClick={handleCloseModal}></span>
 						</div>
-						<div className="UD">
-							<span>{userData.name}</span>
-							<span>{userData.gender}</span>
-							<span>{userData.birthday}</span>
+						<div className="content">
+							{isLoading.current === true && <LoadingIconSpinner />}
+							<p>{AISuggestion}</p>
 						</div>
 					</div>
-					<p>{userData.question}</p>
-				</UpSection>
+				</AIModal>
 			)}
-			{hexagram && AISuggestion && (
-				<Answer>
-					<div className="item">
-						<span className="title">{t('result.paraphrase')}</span>
-						<p>{AISuggestion}</p>
-					</div>
-					<div className="item">
-						<span className="title">{t('result.judgment')}</span>
-						<p>{hexagram.judgment}</p>
-					</div>
-					<div className="item">
-						<span className="title">{t('result.lines')}</span>
-						<p>{hexagram.linesMeaning[userData.changes - 1]}</p>
-					</div>
-				</Answer>
-			)}
-			<Toolbar>
-				<BackButton className="back" to="/">
-					{t('button.home')}
-				</BackButton>
-				<button onClick={handleCapture}>{t('button.capture')}</button>
-			</Toolbar>
-		</Container>
+		</>
 	);
 };
 

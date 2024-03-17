@@ -1,67 +1,70 @@
 {
-  "button": {
-    "start": "START",
-    "next": "NEXT",
-    "back": "BACK",
-    "submit": "SUBMIT",
-    "home": "PLAY AGAIN",
-    "capture": "CAPTURE"
-  },
-  "homepage": {
-    "title": "I CHING",
-    "subtitle": "Web of Changes"
-  },
-  "noticepage": {
-    "title": "WARN",
-    "agree": "Got it!",
-    "list": {
-      "item1": "Seek divination with a sincere heart and genuine doubts.",
-      "item2": "Ensure the question is morally just for meaningful divination results.",
-      "item3": "Avoid asking unnecessary questions that could be easily determined through common sense."
-    }
-  },
-  "userinfo": {
-    "label1": "NAME",
-    "label2": "Gender",
-    "label3": "Birthday",
-    "genderOP": {
-      "option1": "MALE",
-      "option2": "FEMALE",
-      "option3": "OTHER"
-    },
-    "required": {
-      "item1": "Plz input your name",
-      "item2": "Plz input your gender",
-      "item3": "Plz input your birthday",
-      "item4": "Plz input your question"
-    },
-    "BDmax": "You are too young to know the future",
-    "Qmin": "The more detailed answer requires more input",
-    "QPH": "Input at least ten characters for a more detailed response"
-  },
-  "divination": {
-    "title": "NOTICE",
-    "list": {
-      "item1": "Associate three sets of three-digit numbers with non-zero first digits.",
-      "item2": "Avoid using intentionally meaningful numbers.",
-      "item3": "Input the numbers sequentially, starting from the first set.",
-      "item4": "The submit button activates after entering each set."
-    },
-    "required": {
-      "item1": "Plz input first set",
-      "item2": "Plz input second set",
-      "item3": "Plz input third set"
-    },
-    "PH": {
-      "item1": "First set",
-      "item2": "Second set",
-      "item3": "Third set"
-    },
-    "error": "Plz input a valid format"
-  },
-  "result": {
-    "judgment": "THE JUDGMENT",
-    "paraphrase": "THE PARAPHRASE",
-    "lines": "THE LINE"
-  }
+	"button": {
+		"start": "START",
+		"next": "NEXT",
+		"back": "BACK",
+		"submit": "SUBMIT",
+		"home": "PLAY AGAIN",
+		"capture": "CAPTURE",
+		"aiHelper": "AI HELPER"
+	},
+	"homepage": {
+		"title": "I CHING",
+		"subtitle": "Web of Changes"
+	},
+	"noticepage": {
+		"title": "WARN",
+		"agree": "Got it!",
+		"list": {
+			"item1": "Seek divination with a sincere heart and genuine doubts.",
+			"item2": "Ensure the question is morally just for meaningful divination results.",
+			"item3": "Avoid asking unnecessary questions that could be easily determined through common sense."
+		}
+	},
+	"userinfo": {
+		"label1": "NAME",
+		"label2": "Gender",
+		"label3": "Birthday",
+		"label4": "Input your question",
+		"genderOP": {
+			"option1": "MALE",
+			"option2": "FEMALE",
+			"option3": "OTHER"
+		},
+		"required": {
+			"item1": "Plz input your name",
+			"item2": "Plz input your gender",
+			"item3": "Plz input your birthday",
+			"item4": "Plz input your question"
+		},
+		"BDmax": "You are too young to know the future",
+		"Qmin": "The more detailed answer requires more input",
+		"QPH": "Input at least ten characters for a more detailed response"
+	},
+	"divination": {
+		"title": "NOTICE",
+		"list": {
+			"item1": "Associate three sets of three-digit numbers with non-zero first digits.",
+			"item2": "Avoid using intentionally meaningful numbers.",
+			"item3": "Input the numbers sequentially, starting from the first set.",
+			"item4": "The submit button activates after entering each set."
+		},
+		"required": {
+			"item1": "Plz input first set",
+			"item2": "Plz input second set",
+			"item3": "Plz input third set"
+		},
+		"PH": {
+			"item1": "First set",
+			"item2": "Second set",
+			"item3": "Third set"
+		},
+		"error": "Plz input a valid format"
+	},
+	"result": {
+		"judgment": "THE JUDGMENT",
+		"paraphrase": "THE PARAPHRASE",
+		"lines": "THE LINE",
+		"question": "QUESTION"
+	}
 }

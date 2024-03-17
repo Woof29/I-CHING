@@ -34,10 +34,10 @@ exports.generateTextFromAI = functions.https.onRequest((req, res) => {
 					},
 					{
 						role: 'assistant',
-						content: `Based on the fortune result: ${guaCi} and ${bianYao}, here is my suggestion:`,
+						content: `根據占卜結果 ${guaCi} 和 ${bianYao}：`,
 					},
 				],
-				temperature: 0.6,
+				temperature: 0.8,
 				max_tokens: 256,
 			};
 			const response = await axios.post(url, body, {

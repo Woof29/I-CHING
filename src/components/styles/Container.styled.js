@@ -1,13 +1,5 @@
-import styled, { keyframes } from 'styled-components';
-
-export const fadeIn = keyframes`
-from{
-    opacity: 0;
-}
-to{
-    opacity: 1;
-}
-`;
+import styled from 'styled-components';
+import { fadeIn } from './Animation.styled';
 
 const Container = styled.div`
 	width: ${(props) => props.width};
