@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 const NoticeWrap = styled.div`
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid ${theme.color.secondary};
+  border: 1px solid ${theme.color.gray};
+  box-shadow: 2px 2px ${theme.color.gray};
   display: flex;
   flex-direction: column;
   align-items: center;

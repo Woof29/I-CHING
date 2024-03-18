@@ -33,7 +33,6 @@ const FormStyled = styled.div`
       align-items: center;
       justify-content: center;
       gap: 4px;
-
       .notice {
         text-align: center;
         font-size: 14px;
@@ -43,12 +42,15 @@ const FormStyled = styled.div`
       input {
         width: 100%;
         padding: 8px;
-        border: 1px solid ${theme.color.gray};
         border-radius: 4px;
+        border: 1px solid ${theme.color.gray};
+        box-shadow: 2px 2px ${theme.color.gray};
+        transition: all 0.2s;
         outline: none;
         resize: none;
         &:focus {
-          outline: 1px solid ${theme.color.secondary};
+          border: 1px solid ${theme.color.secondary};
+          box-shadow: 2px 2px ${theme.color.secondary};
         }
         &:active {
           background: #fff;
@@ -86,7 +88,8 @@ const NoticeStyled = styled.ul`
   padding: 12px;
   margin-bottom: 16px;
   border-radius: 8px;
-  border: 1px solid ${theme.color.secondary};
+  border: 1px solid ${theme.color.gray};
+  box-shadow: 2px 2px ${theme.color.gray};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
