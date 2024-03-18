@@ -250,6 +250,7 @@ const AIModal = styled.div.attrs({ className: "AIModal" })`
         position: absolute;
         right: 8px;
         top: 8px;
+        cursor: pointer;
         &::after,
         &::before {
           content: "";
