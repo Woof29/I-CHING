@@ -9,24 +9,33 @@ const apiKey = functions.config().openai.apikey;
 exports.generateTextFromAI = functions.https.onRequest((req, res) => {
   cors(req, res, async () => {
     try {
-      const { userQuestion, fortuneResult } = req.body;
+      const { userQuestion, fortuneResult, userLang } = req.body;
 
       if (apiKey === undefined) {
         throw new functions.https.HttpsError("invalid-arg", "API Error");
       }
+
+      let systemMessage = "You are a helpful assistant.";
+      let guaMessage = `Based on the divination result ${fortuneResult.guaCi} and ${fortuneResult.bianYao}:`;
+
+      if (userLang === "zh") {
+        // 中文
+        systemMessage = "你是一個樂於助人的助手。";
+        guaMessage = `根據占卜結果 ${fortuneResult.guaCi} 和 ${fortuneResult.bianYao}：`;
+      }
+
       const url = "https://api.openai.com/v1/chat/completions";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
       };
 
-      const { guaCi, bianYao } = fortuneResult;
       const body = {
         model: "gpt-4-turbo",
         messages: [
           {
             role: "system",
-            content: "You are a helpful assistant.",
+            content: systemMessage,
           },
           {
             role: "user",
@@ -34,11 +43,14 @@ exports.generateTextFromAI = functions.https.onRequest((req, res) => {
           },
           {
             role: "assistant",
-            content: `根據占卜結果 ${guaCi} 和 ${bianYao}：`,
+            content: guaMessage,
           },
         ],
-        temperature: 0.8,
+        temperature: 0.9,
         max_tokens: 256,
+        top_p: 0.9, // 調整top_p
+        frequency_penalty: 0, // 調整frequency_penalty
+        presence_penalty: 0, // 調整presence_penalty
       };
       const response = await axios.post(url, body, {
         headers,

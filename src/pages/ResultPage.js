@@ -322,6 +322,7 @@ const ResultPage = () => {
       fortuneResult: {
         guaCi: hexagram?.description,
         bianYao: hexagram?.linesMeaning[userData.changes - 1],
+        userLanguage: langData,
       },
     };
     if (!isAImodalCalled.current) {
